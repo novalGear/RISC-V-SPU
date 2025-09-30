@@ -1,0 +1,3 @@
+ADD  rdx, rax, rcx
+OR   rax, rbx, rcx
+SLTI
