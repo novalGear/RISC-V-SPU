@@ -1,5 +1,5 @@
-require_relative 'riscv_registers'
 require_relative 'assembler'
+require_relative 'riscv_regs'
 
 ctx = AssemblerContext.new
 
@@ -22,7 +22,7 @@ ctx.assemble do
     beq ra, s0, 16
 
     lw  ra, 16, s0
-    syscall 60
+    syscall
     j    'jmp_target'
     clz  ra, s0
 end

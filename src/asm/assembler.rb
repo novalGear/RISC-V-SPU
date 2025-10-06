@@ -1,23 +1,6 @@
-
+require_relative '../architecture'
 require_relative 'asm_DSL'
 require_relative 'int32_array.rb'
-
-OPCODES = {
-        ADD:        0b011000,
-        OR:         0b010000,
-        SLTI:       0b111101,
-        ST:         0b111000,
-        BEXT:       0b001111,
-        SUB:        0b111001,
-        SSAT:       0b111111,
-        LDP:        0b110101,
-        BEQ:        0b010110,
-        LW:         0b111110,
-        SYSCALL:    0b010101,
-        J:          0b110000,
-        USAT:       0b100010,
-        CLZ:        0b011100,
-    }.freeze
 
 class AssemblerContext
     attr_reader :pc, :label_map, :unfilled_jmp_map, :code
@@ -67,6 +50,7 @@ class AssemblerContext
         end
         context.instance_eval(&block) if block_given?
         context.fill_jmps()
+        @code.write_to_file('./data/output.bin')
         # self
     end
 
@@ -225,12 +209,12 @@ class AssemblerContext
         puts sprintf("jmp      %-26s", "#{index}")
         puts sprintf("%06b   %026b", OPCODES[:J], index)
 
-        @code[pc >> 4] = instr
+        @code[pc >> 2] = instr
         advance_pc()
     end
 
-    def encode_syscall(code)
-        raise "code too big" if code > (2 ** 20 - 1) || code < 0
+    def encode_syscall()
+        code = 0
         instr = (code << 6) | OPCODES[:SYSCALL]
 
         puts "encode_syscall:"

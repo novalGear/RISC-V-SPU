@@ -41,8 +41,8 @@ module InstructionHandlers
         encode_imm15_instr(OPCODES[:LW], base, rt, offset)
     end
 
-    def syscall(code)
-        encode_syscall(code)
+    def syscall()
+        encode_syscall()
     end
 
     def j(label_name)

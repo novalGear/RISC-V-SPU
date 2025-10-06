@@ -67,6 +67,12 @@ class Int32Array
     (0...@length).map { |i| self[i] }
   end
 
+  def write_to_file(filename)
+    File.open(filename, 'wb') do |file|
+      file.write(@buffer)
+    end
+  end
+
   # Итератор
   def each(&block)
     return enum_for(:each) unless block_given?
